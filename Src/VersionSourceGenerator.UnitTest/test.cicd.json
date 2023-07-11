@@ -1,9 +1,9 @@
 [
   {
     "enable": true,
-    "id": "versionHelpers_nuget_test",
-    "name": "VersionHelpers Test",
-    "project_dir": "Src/VersionHelpers.UnitTest",
+    "id": "versionSourceGenerator_nuget_test",
+    "name": "VersionSourceGenerator Test",
+    "project_dir": "Src/VersionSourceGenerator.UnitTest",
     "builds_on": "ubuntu-22.04"
   }
 ]
