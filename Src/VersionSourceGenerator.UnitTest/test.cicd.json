@@ -1,0 +1,9 @@
+[
+  {
+    "enable": true,
+    "id": "versionHelpers_nuget_test",
+    "name": "VersionHelpers Test",
+    "project_dir": "Src/VersionHelpers.UnitTest",
+    "builds_on": "ubuntu-22.04"
+  }
+]

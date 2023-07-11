@@ -1,0 +1,15 @@
+[
+  {
+    "enable": true,
+    "id": "versionHelpers_nuget",
+    "name": "VersionHelpers NuGet",
+    "project_dir": "Src/VersionHelpers",
+    "version_file": "version.txt",
+    "platform_version_format": "version",
+    "release_tagging": "no_id",
+    "builds_on": "ubuntu-22.04",
+    "type": "nuget",
+    "nuget_github_source_url": "https://nuget.pkg.github.com/kiryuumaru/index.json",
+    "nuget_auth_token": "NUGET_AUTH_TOKEN"
+  }
+]
