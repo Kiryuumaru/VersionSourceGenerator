@@ -14,7 +14,7 @@
     <Authors>Kiryuumaru</Authors>
     <Company>Kiryuumaru</Company>
     <Copyright>Kiryuumaru</Copyright>
-    <Description>Version source generator.</Description>
+    <Description>Version source generator to generate source code version from version.txt</Description>
     <PackageTags>Version source generator</PackageTags>
     <PackageProjectUrl>https://github.com/Kiryuumaru/VersionSourceGenerator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Kiryuumaru/VersionSourceGenerator</RepositoryUrl>

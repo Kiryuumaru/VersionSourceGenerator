@@ -1,9 +1,9 @@
 [
   {
     "enable": true,
-    "id": "versionHelpers_nuget",
-    "name": "VersionHelpers NuGet",
-    "project_dir": "Src/VersionHelpers",
+    "id": "versionSourceGenerator_nuget",
+    "name": "VersionSourceGenerator NuGet",
+    "project_dir": "Src/VersionSourceGenerator",
     "version_file": "version.txt",
     "platform_version_format": "version",
     "release_tagging": "no_id",
