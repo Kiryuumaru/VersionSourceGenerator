@@ -110,16 +110,54 @@ public class VersionGenerator : IIncrementalGenerator
                     /// </summary>
                     public static class {{className}}
                     {
+                        /// <summary>
+                        /// The core part of the version. This contains <major>.<minor>.<patch>
+                        /// </summary>
                         public const string Core = "{{core}}";
+                
+                        /// <summary>
+                        /// The major part of the version.
+                        /// </summary>
                         public const int Major = {{major}};
+                
+                        /// <summary>
+                        /// The minor part of the version.
+                        /// </summary>
                         public const int Minor = {{minor}};
+                
+                        /// <summary>
+                        /// The patch part of the version.
+                        /// </summary>
                         public const int Patch = {{patch}};
+                
+                        /// <summary>
+                        /// Evaluates as <c>true</c> if the version is a prerelease; otherwise, <c>false</c>.
+                        /// </summary>
                         public const bool IsPrerelease = {{isPrerelease}};
+                
+                        /// <summary>
+                        /// The prerelease part of the version. This is the value after the <c>-</c> and before the <c>+</c> character of the version.
+                        /// </summary>
                         public static readonly string Prerelease = "{{prerelease}}";
+
+                        /// <summary>
+                        /// The prerelease part of the version separated by dot <c>.</c>. This is the value after the <c>-</c> and before the <c>+</c> character of the version.
+                        /// </summary>
                         public static readonly string[] PrereleaseIdentifiers = new string[] {{{prereleaseIdentifiers}}};
+                
+                        /// <summary>
+                        /// The metadata part of the version. This is the value after the <c>+</c> character of the version.
+                        /// </summary>
                         public static readonly string Metadata = "{{metadata}}";
+
+                        /// <summary>
+                        /// The metadata part of the version separated by dot <c>.</c>. This is the value after the <c>+</c> character of the version.
+                        /// </summary>
                         public static readonly string[] MetadataIdentifiers = new string[] {{{metadataIdentifiers}}};
                 
+                        /// <summary>
+                        /// The full version of the generated version without the <c>v</c> character.
+                        /// </summary>
                         public const string Full = "{{versionTxt}}";
                     }
                 }
