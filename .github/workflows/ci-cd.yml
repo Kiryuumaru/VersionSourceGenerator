@@ -355,7 +355,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.id }}_${{ matrix.full_version_with_v }}_notes
-          path: ${{ GITHUB_WORKSPACE }}/version_notes.txt
+          path: /version_notes.txt
           if-no-files-found: error
           retention-days: 1
 
