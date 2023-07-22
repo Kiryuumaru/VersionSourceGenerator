@@ -79,6 +79,7 @@ jobs:
             break
           done
           let "build = $last_build + 1"
+          all_version_notes_file="$GITHUB_WORKSPACE/version_notes.txt"
           if [ ${has_presentation} == 'true' ]; then
             while read -r config_file id type project_dir version_file platform_version_format release_tagging builds_on maui_platform; do
               # ████████████████████ Resolve names and paths █████████████████████
@@ -95,8 +96,15 @@ jobs:
                 version_file_os_path="${version_file_os_path//\//\\}"
                 config_file_os_path="${config_file_os_path//\//\\}"
               fi
-              # █████████████████████ Get version from file ██████████████████████
+              # █████████████████████ Get version and notes from file ██████████████████████
               version=""
+              version_notes_file="${version_file}.notes.txt"
+              tail -n +2 "${version_file}" > "${version_notes_file}"
+              if [ "$(cat $all_version_notes_file)" != "" ]; then
+                printf "$(cat $all_version_notes_file)\\n\\n### $project_name\\n$(cat $version_notes_file)" > $version_notes_file.tmp && mv "$version_notes_file.tmp" "$version_notes_file"
+              else
+                printf "### $project_name\\n$(cat $version_notes_file)" > $version_notes_file.tmp && mv "$version_notes_file.tmp" "$version_notes_file"
+              fi
               if [ "$(wc -l < ${version_file})" -ge 0 ]; then
                 version=$(head -n1 ${version_file})
                 version=${version//﻿}
@@ -340,6 +348,14 @@ jobs:
           echo "is_first_build=${is_first_build}" >> $GITHUB_OUTPUT
           echo "last_build=${last_build}" >> $GITHUB_OUTPUT
           echo "has_release=${has_release}" >> $GITHUB_OUTPUT
+
+      - name: Upload notes
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.id }}_${{ matrix.full_version_with_v }}_notes
+          path: $GITHUB_WORKSPACE/version_notes.txt
+          if-no-files-found: error
+          retention-days: 1
 
     outputs:
       presentation: ${{ steps.setup_matrix.outputs.presentation }}
@@ -598,9 +614,8 @@ jobs:
               --notes-start-tag build.${{ needs.setup.outputs.last_build }} \
               --draft
           fi
-          version_notes_file=${{ matrix.version_file_os_path }}.notes.txt
+          version_notes_file=./output/version_notes.txt
           git_notes_file=${{ matrix.version_file_os_path }}.git-notes.txt
-          tail -n +2 "${{ matrix.version_file_os_path }}" > "$version_notes_file"
           if [ "$(cat $version_notes_file)" != ""  ]; then
             printf "## Summary\\n$(cat $version_notes_file)" > $git_notes_file
             printf "$(cat $git_notes_file)\\n\\n$(gh release view build.$(build) --json body | jq -r .body)" > $git_notes_file.tmp && mv "$git_notes_file.tmp" "$git_notes_file"
