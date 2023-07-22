@@ -82,7 +82,7 @@ jobs:
           all_version_notes_file="$GITHUB_WORKSPACE/version_notes.txt"
           echo "" > $all_version_notes_file
           if [ ${has_presentation} == 'true' ]; then
-            while read -r config_file id "name" type project_dir version_file platform_version_format release_tagging builds_on maui_platform; do
+            while read -r config_file id name type project_dir version_file platform_version_format release_tagging builds_on maui_platform; do
               # ████████████████████ Resolve names and paths █████████████████████
               echo "$id"
               echo "$name"
@@ -279,7 +279,7 @@ jobs:
                 web_server)
                   ;;
               esac
-            done <<< $(jq -r '.[] | "\(.config_file) \(.id) \(".name") \(.type) \(.project_dir) \(.version_file) \(.platform_version_format) \(.release_tagging) \(.builds_on) \(.maui_platform)"' <<< "${PRESENTATION}")
+            done <<< $(jq -r '.[] | \(.config_file) \(.id) \(.name) \(.type) \(.project_dir) \(.version_file) \(.platform_version_format) \(.release_tagging) \(.builds_on) \(.maui_platform)' <<< "${PRESENTATION}")
           fi
           PRESENTATION_PUBLISH=$(jq 'del(.[] | select(.version_changed == "false"))' <<< "${PRESENTATION}")
           # ███████████████████████████████████████████████████████████████████████████████████████████████
