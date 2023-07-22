@@ -349,6 +349,7 @@ jobs:
           echo "is_first_build=${is_first_build}" >> $GITHUB_OUTPUT
           echo "last_build=${last_build}" >> $GITHUB_OUTPUT
           echo "has_release=${has_release}" >> $GITHUB_OUTPUT
+          printf "$(cat $GITHUB_WORKSPACE/version_notes.txt)"
 
       - name: Upload notes
         uses: actions/upload-artifact@v3
