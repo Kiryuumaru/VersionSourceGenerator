@@ -279,7 +279,7 @@ jobs:
                 web_server)
                   ;;
               esac
-            done <<< $(jq -r '.[] | "\(.config_file) \(.id) "\(.name)" \(.type) \(.project_dir) \(.version_file) \(.platform_version_format) \(.release_tagging) \(.builds_on) \(.maui_platform)"' <<< "${PRESENTATION}")
+            done <<< $(jq -r '.[] | "\(.config_file) \(.id) \(".name") \(.type) \(.project_dir) \(.version_file) \(.platform_version_format) \(.release_tagging) \(.builds_on) \(.maui_platform)"' <<< "${PRESENTATION}")
           fi
           PRESENTATION_PUBLISH=$(jq 'del(.[] | select(.version_changed == "false"))' <<< "${PRESENTATION}")
           # ███████████████████████████████████████████████████████████████████████████████████████████████
