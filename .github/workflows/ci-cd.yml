@@ -289,7 +289,7 @@ jobs:
                 web_server)
                   ;;
               esac
-            done <<< $(jq -r - c '.[]' <<< "${PRESENTATION}")
+            done <<< $(jq -r -c '.[]' <<< "${PRESENTATION}")
           fi
           PRESENTATION_PUBLISH=$(jq 'del(.[] | select(.version_changed == "false"))' <<< "${PRESENTATION}")
           # ███████████████████████████████████████████████████████████████████████████████████████████████
