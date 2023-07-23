@@ -94,10 +94,6 @@ jobs:
               release_tagging=$(jq -r '.release_tagging' <<< "$item")
               builds_on=$(jq -r '.builds_on' <<< "$item")
               maui_platform=$(jq -r '.maui_platform' <<< "$item")
-              echo "$id"
-              echo "$name"
-              echo "$type"
-              echo "$project_dir"
               project_name="${project_dir##**/}.csproj"
               project="${project_dir}/${project_name}"
               project_os_path="${project}"
@@ -296,8 +292,11 @@ jobs:
           # ██████████████████████████████████ Polyfill unit test values ██████████████████████████████████
           # ███████████████████████████████████████████████████████████████████████████████████████████████
           if [ ${has_test} == 'true' ]; then
-            while read -r config_file id project_dir builds_on; do
+            while read -r item; do
               # ████████████████████████ Resolve paths ███████████████████████████
+              config_file=$(jq -r '.config_file' <<< "$item")
+              project_dir=$(jq -r '.project_dir' <<< "$item")
+              builds_on=$(jq -r '.builds_on' <<< "$item")
               project_name="${project_dir##**/}.csproj"
               project="${project_dir}/${project_name}"
               project_os_path="${project}"
@@ -319,7 +318,7 @@ jobs:
                   .project_os_path=$project_os_path |
                   .config_file_os_path=$config_file_os_path)' \
                 <<< "${TEST}")
-            done <<< $(jq -r '.[] | "\(.config_file) \(.id) \(.project_dir) \(.builds_on)"' <<< "${TEST}")
+            done <<< $(jq -r -c '.[]' <<< "${TEST}")
           fi
           # ███████████████████████████████████████████████████████████████████████████████████████████████
           # ████████████████████████████████████████ Print output █████████████████████████████████████████
@@ -368,8 +367,8 @@ jobs:
       - name: Upload notes
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.id }}_${{ matrix.full_version_with_v }}_notes
-          path: /version_notes.txt
+          name: version_notes
+          path: ${{ github.workspace }}/version_notes.txt
           if-no-files-found: error
           retention-days: 1
 
