@@ -40,7 +40,7 @@ jobs:
           has_test=false
           has_release=false
           presentation_config_files=$(find . -name "presentation.cicd.json")
-          if [ ${presentation_config_files} != '' ]; then
+          if [ "${presentation_config_files}" != "" ]; then
             while read -r json_file; do
               while read -r item; do
                 if [ $(jq -r '.enable' <<< "${item}") != 'true' ]; then
@@ -50,10 +50,10 @@ jobs:
                 PRESENTATION=$(jq --argjson item "$item" '. += [$item]' <<< "${PRESENTATION}")
                 has_presentation=true
               done <<< $(jq -c '.[]' "$json_file")
-            done <<< ${presentation_config_files}
+            done <<< "${presentation_config_files}"
           fi
           test_config_files=$(find . -name "test.cicd.json")
-          if [ ${test_config_files} != '' ]; then
+          if [ "${test_config_files}" != "" ]; then
             while read -r json_file; do
               while read -r item; do
                 if [ $(jq -r '.enable' <<< "${item}") != 'true' ]; then
@@ -63,7 +63,7 @@ jobs:
                 TEST=$(jq --argjson item "$item" '. += [$item]' <<< "${TEST}")
                 has_test=true
               done <<< $(jq -c '.[]' "$json_file")
-            done <<< ${test_config_files}
+            done <<< "${test_config_files}"
           fi
           # ███████████████████████████████████████████████████████████████████████████████████████████████
           # ████████████████████████████████ Polyfill presentation values █████████████████████████████████
@@ -82,8 +82,18 @@ jobs:
           all_version_notes_file="$GITHUB_WORKSPACE/version_notes.txt"
           echo "" > $all_version_notes_file
           if [ ${has_presentation} == 'true' ]; then
-            while read -r config_file id name type project_dir version_file platform_version_format release_tagging builds_on maui_platform; do
+            while read -r item; do
               # ████████████████████ Resolve names and paths █████████████████████
+              config_file=$(jq -r '.config_file' <<< $item)
+              id=$(jq -r '.id' <<< $item)
+              name=$(jq -r '.name' <<< $item)
+              type=$(jq -r '.type' <<< $item)
+              project_dir=$(jq -r '.project_dir' <<< $item)
+              version_file=$(jq -r '.version_file' <<< $item)
+              platform_version_format=$(jq -r '.platform_version_format' <<< $item)
+              release_tagging=$(jq -r '.release_tagging' <<< $item)
+              builds_on=$(jq -r '.builds_on' <<< $item)
+              maui_platform=$(jq -r '.maui_platform' <<< $item)
               echo "$id"
               echo "$name"
               echo "$type"
@@ -279,7 +289,7 @@ jobs:
                 web_server)
                   ;;
               esac
-            done <<< $(jq '.[] | "\(.config_file) \(.id) \(.name) \(.type) \(.project_dir) \(.version_file) \(.platform_version_format) \(.release_tagging) \(.builds_on) \(.maui_platform)"' <<< "${PRESENTATION}")
+            done < $(jq -r - c '.[]' < "${PRESENTATION}")
           fi
           PRESENTATION_PUBLISH=$(jq 'del(.[] | select(.version_changed == "false"))' <<< "${PRESENTATION}")
           # ███████████████████████████████████████████████████████████████████████████████████████████████
