@@ -84,16 +84,16 @@ jobs:
           if [ ${has_presentation} == 'true' ]; then
             while read -r item; do
               # ████████████████████ Resolve names and paths █████████████████████
-              config_file=$(jq -r '.config_file' <<< $item)
-              id=$(jq -r '.id' <<< $item)
-              name=$(jq -r '.name' <<< $item)
-              type=$(jq -r '.type' <<< $item)
-              project_dir=$(jq -r '.project_dir' <<< $item)
-              version_file=$(jq -r '.version_file' <<< $item)
-              platform_version_format=$(jq -r '.platform_version_format' <<< $item)
-              release_tagging=$(jq -r '.release_tagging' <<< $item)
-              builds_on=$(jq -r '.builds_on' <<< $item)
-              maui_platform=$(jq -r '.maui_platform' <<< $item)
+              config_file=$(jq -r '.config_file' <<< "$item")
+              id=$(jq -r '.id' <<< "$item")
+              name=$(jq -r '.name' <<< "$item")
+              type=$(jq -r '.type' <<< "$item")
+              project_dir=$(jq -r '.project_dir' <<< "$item")
+              version_file=$(jq -r '.version_file' <<< "$item")
+              platform_version_format=$(jq -r '.platform_version_format' <<< "$item")
+              release_tagging=$(jq -r '.release_tagging' <<< "$item")
+              builds_on=$(jq -r '.builds_on' <<< "$item")
+              maui_platform=$(jq -r '.maui_platform' <<< "$item")
               echo "$id"
               echo "$name"
               echo "$type"
@@ -289,7 +289,7 @@ jobs:
                 web_server)
                   ;;
               esac
-            done < $(jq -r - c '.[]' < "${PRESENTATION}")
+            done <<< $(jq -r - c '.[]' <<< "${PRESENTATION}")
           fi
           PRESENTATION_PUBLISH=$(jq 'del(.[] | select(.version_changed == "false"))' <<< "${PRESENTATION}")
           # ███████████████████████████████████████████████████████████████████████████████████████████████
