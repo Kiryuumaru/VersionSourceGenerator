@@ -1,3 +1,2 @@
-﻿1.0.2
-* Added xml documentation to the generated source code
-* Cleanups
+﻿1.0.3
+* Updated dependencies
